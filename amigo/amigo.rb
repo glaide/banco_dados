@@ -21,7 +21,6 @@ class Amigo < ActiveRecord::Base
 
   before_validation :corrige_tipos
 
-
   private
 
   def corrige_tipos
