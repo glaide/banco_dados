@@ -3,10 +3,10 @@ $:.push "./"
 require "sinopse/resumo.rb"
 require "livro/pessoa.rb"
 require "editora/casa.rb"
-require "autor/amigo.rb"
+require "amigo/amigo.rb"
 
 $todas_tabelas = {
-  "autores" => Amigo,
+  "amigos" => Amigo,
   "livros" => Pessoa,
   "sinopses" => Resumo,
   "editoras" => Casa,
@@ -103,16 +103,16 @@ def listaTabela(nome_tabela, condicoes = "")
       impressao << entrada[col].to_s
       info.push(impressao)
     end
-    # lista ids dos autores do pessoa
+    # lista ids dos amigos do pessoa
     if nome_tabela == "livros"
-      autores = []
-      entrada.autor.each do |autor|
-        autores.push(autor.id)
+      amigos = []
+      entrada.amigo.each do |amigo|
+        amigos.push(amigo.id)
       end
-      info.push("autor_id: #{autores.join(", ")}")
+      info.push("autor_id: #{amigos.join(", ")}")
     end
     # lista ids dos livros do amigo
-    if nome_tabela == "autores"
+    if nome_tabela == "amigos"
       livros = []
       entrada.livro.each do |livro|
         livros.push(livro.id)
@@ -131,7 +131,7 @@ def insereTabela(nome_tabela, entrada)
 
   ids_livros = []
 
-  if nome_tabela == "autores"
+  if nome_tabela == "amigos"
     ids_livros = entrada["livros"]
     entrada.delete("livros")
     ids_livros = ids_livros.split(",")
@@ -158,7 +158,7 @@ def insereTabela(nome_tabela, entrada)
 end
 
 # Faz o mesmo de insereTabela, mas como um pessoa precisa ter necessariamente
-# uma resumo e autores, foi feita uma função própria para tal
+# uma resumo e amigos, foi feita uma função própria para tal
 def insereLivros(entrada)
   sinopse = Resumo.new(texto: entrada["resumo"])
   entrada.delete("resumo")
@@ -178,16 +178,16 @@ def insereLivros(entrada)
 end
 
 # Faz o mesmo de insereTabela, mas como não podemos acessar diretamente a tabela
-# de associação entre autores e livros, foi feita uma função própria para tal
+# de associação entre amigos e livros, foi feita uma função própria para tal
 def insereAutoresLivros(hash)
-  ids_autores = hash["autores"].split(",")
+  ids_autores = hash["amigos"].split(",")
   ids_livros = hash["livros"].split(",")
 
   ids_livros.each do |id_livro|
     livro = Pessoa.find_by(id: id_livro.to_i)
     ids_autores.each do |id_autor|
-      autor = Amigo.find_by(id: id_autor.to_i)
-      autor.livro << livro if livro != nil and autor != nil
+      amigo = Amigo.find_by(id: id_autor.to_i)
+      amigo.livro << livro if livro != nil and amigo != nil
     end
   end
 end

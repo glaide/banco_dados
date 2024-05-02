@@ -7,11 +7,11 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
 class Pessoa < ActiveRecord::Base
   has_one :sinopse, dependent: :destroy
   belongs_to :editora
-  has_and_belongs_to_many :autor, dependent: :destroy_all
+  has_and_belongs_to_many :amigo, dependent: :destroy_all
 
   before_destroy do |livro|
     # pega cada pessoa do amigo
-    livro.autor.each do |a|
+    livro.amigo.each do |a|
       # e apaga a relação entre pessoa-amigo
       a.livro.each do |l|
         l.delete if l == livro

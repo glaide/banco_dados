@@ -5,5 +5,5 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
 
 ActiveRecord::Base.connection.create_table :autores_livros, id: false do |t|
   t.references :livro, :unique => true
-  t.references :autor, :unique => true
+  t.references :amigo, :unique => true
 end
