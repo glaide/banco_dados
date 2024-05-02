@@ -9,7 +9,7 @@ $todas_tabelas = {
   "amigos" => Amigo,
   "livros" => Pessoa,
   "sinopses" => Resumo,
-  "editoras" => Casa,
+  "casas" => Casa,
 }
 
 # Transforma uma string de entrada em uma hash conforme o padrão
