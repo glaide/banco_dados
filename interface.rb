@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 $:.push "./"
-require "sinopse/resumo.rb"
+require "resumo/resumo.rb"
 require "pessoa/pessoa.rb"
 require "editora/casa.rb"
 require "amigo/amigo.rb"
@@ -8,7 +8,7 @@ require "amigo/amigo.rb"
 $todas_tabelas = {
   "amigos" => Amigo,
   "pessoas" => Pessoa,
-  "sinopses" => Resumo,
+  "resumos" => Resumo,
   "casas" => Casa,
 }
 
@@ -160,20 +160,20 @@ end
 # Faz o mesmo de insereTabela, mas como um pessoa precisa ter necessariamente
 # uma resumo e amigos, foi feita uma função própria para tal
 def insereLivros(entrada)
-  sinopse = Resumo.new(texto: entrada["resumo"])
+  resumo = Resumo.new(texto: entrada["resumo"])
   entrada.delete("resumo")
 
   pessoa = Pessoa.new(entrada)
-  pessoa.sinopse = sinopse
+  pessoa.resumo = resumo
 
-  if sinopse.valid? and pessoa.valid?
-    sinopse.save
+  if resumo.valid? and pessoa.valid?
+    resumo.save
     pessoa.save
     puts "ID da nova inserção: #{pessoa.id}"
   else
     puts "Inserção inválida. Erro(s) gerado(s):"
     puts pessoa.errors.full_messages
-    puts sinopse.errors.full_messages
+    puts resumo.errors.full_messages
   end
 end
 
