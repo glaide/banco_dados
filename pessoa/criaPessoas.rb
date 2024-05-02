@@ -6,5 +6,5 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
 ActiveRecord::Base.connection.create_table :pessoas do |l|
   l.integer :ano
   l.string :nome
-  l.references :editora, foreign_key: true
+  l.references :casa, foreign_key: true
 end

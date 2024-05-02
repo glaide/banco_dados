@@ -6,7 +6,7 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
 
 class Pessoa < ActiveRecord::Base
   has_one :resumo, dependent: :destroy
-  belongs_to :editora
+  belongs_to :casa
   has_and_belongs_to_many :amigo, dependent: :destroy_all
 
   before_destroy do |pessoa|
@@ -18,12 +18,12 @@ class Pessoa < ActiveRecord::Base
     end
   end
 
-  validates :editora, presence: true
+  validates :casa, presence: true
   validates :nome, presence: true, length: { minimum: 2, maximum: 500 }
   validates :ano, presence: true, numericality: { only_integer: true, less_than_or_equal_to: 2023, greater_than_or_equal_to: -1000 }
   validates :resumo, presence: true
 
-  validates_associated :editora
+  validates_associated :casa
 
   before_validation :corrige_tipos
 
@@ -32,6 +32,6 @@ class Pessoa < ActiveRecord::Base
   def corrige_tipos
     ano = ano.to_i
     nome = nome.to_s
-    editora_id = editora_id.to_i
+    casa_id = casa_id.to_i
   end
 end

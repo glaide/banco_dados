@@ -18,6 +18,6 @@ class Resumo < ActiveRecord::Base
 
   def corrige_tipos
     texto = texto.to_s
-    livro_id = livro_id.to_i
+    resumo.id = resumo.id.to_i
   end
 end

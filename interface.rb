@@ -2,7 +2,7 @@
 $:.push "./"
 require "resumo/resumo.rb"
 require "pessoa/pessoa.rb"
-require "editora/casa.rb"
+require "casa/casa.rb"
 require "amigo/amigo.rb"
 
 $todas_tabelas = {
@@ -117,7 +117,7 @@ def listaTabela(nome_tabela, condicoes = "")
       entrada.pessoa.each do |pessoa|
         pessoas.push(pessoa.id)
       end
-      info.push("livro_id: #{pessoas.join(", ")}")
+      info.push("resumo.id: #{pessoas.join(", ")}")
     end
     # imprime utilizando join pra usar o char de separação mais facilmente
     puts "#{info.join(" | ")}"
