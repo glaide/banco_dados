@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 $:.push "./"
 require "sinopse/resumo.rb"
-require "livro/pessoa.rb"
+require "pessoa/pessoa.rb"
 require "editora/casa.rb"
 require "amigo/amigo.rb"
 
-livros = [
+pessoas = [
   {
     nome: "2001: uma Odisseia no Espaço",
     amigos: ["Arthur C. Clarke"],
@@ -29,7 +29,7 @@ livros = [
     amigos: ["Thomas H. Cormen", "Charles E. Leiserson", "Ronald L. Rivest", "Clifford Stein"],
     editora: "MIT Press",
     ano: 1990,
-    sinopse: " Há livros sobre algoritmos que são rigorosos, mas não completos, e livros que abrangem uma grande quantidade de assuntos, mas não são rigorosos. Introdução aos algoritmos combina os atributos de rigor e abrangência. Este pessoa cobre em profundidade uma ampla faixa de algoritmos, de maneira acessível aos leitores de todos os níveis. Os algoritmos são apresentados em linguagem comum e em um pseudocódigo criado para ser lido com facilidade por qualquer pessoa familiarizada com a atividade de programação. As explicações foram mantidas elementares, sem sacrificar a profundidade da cobertura nem o rigor matemático.",
+    sinopse: " Há pessoas sobre algoritmos que são rigorosos, mas não completos, e pessoas que abrangem uma grande quantidade de assuntos, mas não são rigorosos. Introdução aos algoritmos combina os atributos de rigor e abrangência. Este pessoa cobre em profundidade uma ampla faixa de algoritmos, de maneira acessível aos leitores de todos os níveis. Os algoritmos são apresentados em linguagem comum e em um pseudocódigo criado para ser lido com facilidade por qualquer pessoa familiarizada com a atividade de programação. As explicações foram mantidas elementares, sem sacrificar a profundidade da cobertura nem o rigor matemático.",
   },
   {
     nome: "Uma Breve História do Tempo",
@@ -82,21 +82,21 @@ livros = [
   },
 ]
 
-livros.each do |livro|
+pessoas.each do |pessoa|
   # pessoa já cadastrado
-  next if not Pessoa.find_by(nome: livro[:nome]).blank?
+  next if not Pessoa.find_by(nome: pessoa[:nome]).blank?
 
-  l = Pessoa.new({ :nome => livro[:nome], :ano => livro[:ano] })
+  l = Pessoa.new({ :nome => pessoa[:nome], :ano => pessoa[:ano] })
 
-  editora = Casa.find_or_create_by(nome: livro[:editora])
+  editora = Casa.find_or_create_by(nome: pessoa[:editora])
   # Adiciona amigos
-  livro[:amigos].each do |nome_autor|
+  pessoa[:amigos].each do |nome_autor|
     amigo = Amigo.find_or_create_by(nome: nome_autor)
     l.amigo << amigo
   end
   
-  s = Resumo.new({ :texto => livro[:sinopse] })
-  s.livro = l
+  s = Resumo.new({ :texto => pessoa[:sinopse] })
+  s.pessoa = l
   l.editora = editora
   l.save
   s.save

@@ -9,19 +9,15 @@ class Pessoa < ActiveRecord::Base
   belongs_to :editora
   has_and_belongs_to_many :amigo, dependent: :destroy_all
 
-  before_destroy do |livro|
-    # pega cada pessoa do amigo
-    livro.amigo.each do |a|
-      # e apaga a relação entre pessoa-amigo
-      a.livro.each do |l|
-        l.delete if l == livro
+  before_destroy do |pessoa|
+    pessoa.amigo.each do |a|
+      a.pessoa.each do |l|
+        l.delete if l == pessoa
       end
-      # se não restaram livros para o amigo, o apaga
-      a.destroy if a.livro.count == 0
+      a.destroy if a.pessoa.count == 0
     end
   end
 
-  # validações
   validates :editora, presence: true
   validates :nome, presence: true, length: { minimum: 2, maximum: 500 }
   validates :ano, presence: true, numericality: { only_integer: true, less_than_or_equal_to: 2023, greater_than_or_equal_to: -1000 }

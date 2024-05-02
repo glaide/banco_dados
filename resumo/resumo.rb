@@ -5,12 +5,12 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
                                         :database => "Tabelas.sqlite3"
 
 class Resumo < ActiveRecord::Base
-  belongs_to :livro
+  belongs_to :pessoa
   # validações
-  validates :livro, presence: true, uniqueness: true
+  validates :pessoa, presence: true, uniqueness: true
   validates :texto, presence: true, length: { minimum: 20, maximum: 2000 }
 
-  validates_associated :livro
+  validates_associated :pessoa
 
   before_validation :corrige_tipos
 

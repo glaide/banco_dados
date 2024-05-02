@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 $:.push "./"
 require "sinopse/resumo.rb"
-require "livro/pessoa.rb"
+require "pessoa/pessoa.rb"
 require "editora/casa.rb"
 require "amigo/amigo.rb"
 
 $todas_tabelas = {
   "amigos" => Amigo,
-  "livros" => Pessoa,
+  "pessoas" => Pessoa,
   "sinopses" => Resumo,
   "casas" => Casa,
 }
@@ -104,20 +104,20 @@ def listaTabela(nome_tabela, condicoes = "")
       info.push(impressao)
     end
     # lista ids dos amigos do pessoa
-    if nome_tabela == "livros"
+    if nome_tabela == "pessoas"
       amigos = []
       entrada.amigo.each do |amigo|
         amigos.push(amigo.id)
       end
       info.push("autor_id: #{amigos.join(", ")}")
     end
-    # lista ids dos livros do amigo
+    # lista ids dos pessoas do amigo
     if nome_tabela == "amigos"
-      livros = []
-      entrada.livro.each do |livro|
-        livros.push(livro.id)
+      pessoas = []
+      entrada.pessoa.each do |pessoa|
+        pessoas.push(pessoa.id)
       end
-      info.push("livro_id: #{livros.join(", ")}")
+      info.push("livro_id: #{pessoas.join(", ")}")
     end
     # imprime utilizando join pra usar o char de separação mais facilmente
     puts "#{info.join(" | ")}"
@@ -132,8 +132,8 @@ def insereTabela(nome_tabela, entrada)
   ids_livros = []
 
   if nome_tabela == "amigos"
-    ids_livros = entrada["livros"]
-    entrada.delete("livros")
+    ids_livros = entrada["pessoas"]
+    entrada.delete("pessoas")
     ids_livros = ids_livros.split(",")
   end
 
@@ -145,7 +145,7 @@ def insereTabela(nome_tabela, entrada)
       puts "Pessoa(s) não encontrado(s)"
       return
     end
-    insere.livro << l 
+    insere.pessoa << l 
   end
 
   if insere.valid?
@@ -163,31 +163,31 @@ def insereLivros(entrada)
   sinopse = Resumo.new(texto: entrada["resumo"])
   entrada.delete("resumo")
 
-  livro = Pessoa.new(entrada)
-  livro.sinopse = sinopse
+  pessoa = Pessoa.new(entrada)
+  pessoa.sinopse = sinopse
 
-  if sinopse.valid? and livro.valid?
+  if sinopse.valid? and pessoa.valid?
     sinopse.save
-    livro.save
-    puts "ID da nova inserção: #{livro.id}"
+    pessoa.save
+    puts "ID da nova inserção: #{pessoa.id}"
   else
     puts "Inserção inválida. Erro(s) gerado(s):"
-    puts livro.errors.full_messages
+    puts pessoa.errors.full_messages
     puts sinopse.errors.full_messages
   end
 end
 
 # Faz o mesmo de insereTabela, mas como não podemos acessar diretamente a tabela
-# de associação entre amigos e livros, foi feita uma função própria para tal
+# de associação entre amigos e pessoas, foi feita uma função própria para tal
 def insereAutoresLivros(hash)
   ids_autores = hash["amigos"].split(",")
-  ids_livros = hash["livros"].split(",")
+  ids_livros = hash["pessoas"].split(",")
 
   ids_livros.each do |id_livro|
-    livro = Pessoa.find_by(id: id_livro.to_i)
+    pessoa = Pessoa.find_by(id: id_livro.to_i)
     ids_autores.each do |id_autor|
       amigo = Amigo.find_by(id: id_autor.to_i)
-      amigo.livro << livro if livro != nil and amigo != nil
+      amigo.pessoa << pessoa if pessoa != nil and amigo != nil
     end
   end
 end
@@ -265,7 +265,7 @@ def trataComando(comando, restante)
     h = strToHash(restante[1])
 
     case restante[0]
-    when "livros"
+    when "pessoas"
       insereLivros(h)
     else
       insereTabela(restante[0], h)

@@ -6,10 +6,10 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
 
 class Amigo < ActiveRecord::Base
   self.table_name = "amigos"
-  has_and_belongs_to_many :livro
+  has_and_belongs_to_many :pessoa
 
   before_destroy do |amigo|
-    amigo.livro.each do |l|
+    amigo.pessoa.each do |l|
       l.amigo.each do |a|
         a.delete if a.id == amigo.id
       end

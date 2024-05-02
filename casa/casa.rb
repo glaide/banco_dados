@@ -5,8 +5,7 @@ ActiveRecord::Base.establish_connection :adapter => "sqlite3",
                                         :database => "Tabelas.sqlite3"
 
 class Casa < ActiveRecord::Base
-  has_many :livro, dependent: :delete_all
-  # validações
+  has_many :pessoa, dependent: :delete_all
   validates :nome, presence: true, length: { minimum: 2, maximum: 500 }, uniqueness: true
 
   before_validation :corrige_tipos
