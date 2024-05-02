@@ -109,7 +109,7 @@ def listaTabela(nome_tabela, condicoes = "")
       entrada.amigo.each do |amigo|
         amigos.push(amigo.id)
       end
-      info.push("autor_id: #{amigos.join(", ")}")
+      info.push("amigo_id: #{amigos.join(", ")}")
     end
     # lista ids dos pessoas do amigo
     if nome_tabela == "amigos"
@@ -129,17 +129,17 @@ def insereTabela(nome_tabela, entrada)
   tabela = obtemTabela(nome_tabela)
   return if tabela == nil
 
-  ids_livros = []
+  ids_pessoas = []
 
   if nome_tabela == "amigos"
-    ids_livros = entrada["pessoas"]
+    ids_pessoas = entrada["pessoas"]
     entrada.delete("pessoas")
-    ids_livros = ids_livros.split(",")
+    ids_pessoas = ids_pessoas.split(",")
   end
 
   insere = tabela.new(entrada)
 
-  ids_livros.each do |id_l|
+  ids_pessoas.each do |id_l|
     l = Pessoa.find_by(id: id_l)
     if l == nil
       puts "Pessoa(s) não encontrado(s)"
@@ -159,7 +159,7 @@ end
 
 # Faz o mesmo de insereTabela, mas como um pessoa precisa ter necessariamente
 # uma resumo e amigos, foi feita uma função própria para tal
-def insereLivros(entrada)
+def inserePessoas(entrada)
   resumo = Resumo.new(texto: entrada["resumo"])
   entrada.delete("resumo")
 
@@ -180,12 +180,12 @@ end
 # Faz o mesmo de insereTabela, mas como não podemos acessar diretamente a tabela
 # de associação entre amigos e pessoas, foi feita uma função própria para tal
 def insereAutoresLivros(hash)
-  ids_autores = hash["amigos"].split(",")
-  ids_livros = hash["pessoas"].split(",")
+  ids_amigos = hash["amigos"].split(",")
+  ids_pessoas = hash["pessoas"].split(",")
 
-  ids_livros.each do |id_livro|
+  ids_pessoas.each do |id_livro|
     pessoa = Pessoa.find_by(id: id_livro.to_i)
-    ids_autores.each do |id_autor|
+    ids_amigos.each do |id_autor|
       amigo = Amigo.find_by(id: id_autor.to_i)
       amigo.pessoa << pessoa if pessoa != nil and amigo != nil
     end
@@ -266,7 +266,7 @@ def trataComando(comando, restante)
 
     case restante[0]
     when "pessoas"
-      insereLivros(h)
+      inserePessoas(h)
     else
       insereTabela(restante[0], h)
     end
