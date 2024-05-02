@@ -66,58 +66,51 @@ Ex:
 
     tabelas
 
-Obs: apesar de imprimir a tabela autores_livros (que exite para a relação muitos para muitos), esta não poderá ser acessada diretamente.
+Obs: apesar de imprimir a tabela amigoes_pessoas (que exite para a relação muitos para muitos), esta não poderá ser acessada diretamente.
 
-## colunas
-
-
-Lista todas as colunas presentes em uma tabela.
-
-Ex:
-
-    colunas livros
 
 ## lista
 Lista as entradas da tabela passada como parâmetro. Opcionalmente podem ser passados os campos que a entrada deve ter para ser listada. Caso sejam passados vários campos, são listadas as entradas que respeitem todas as condições.
 
-Ex (sem campos):
+Ex sem filtro:
 
-    lista livros
+    lista pessoas
 
-Ex (com campos):
+Ex com fitros:
 
-    lista livros ano="1996" editora_id="2"
+    lista pessoas ano="1968" casa_id="2"
+
 ## insere
-Insere em dada tabela uma nova entrada especificada pelos campos passados. Porém, por conta das associações das tabelas, existem algumas limitações:
+Insere em dada tabela uma nova entrada especificada pelos campos passados. 
+Porém, por conta das associações das tabelas, existem algumas limitações:
 
-Como livros e sinopses possuem uma relação um para um, ambos devem ser inseridos juntos, então também se deve adicionar um campo sinopse durante a inserção de um livro.
+Como pessoas e resumos possuem uma relação um para um, ambos devem ser inseridos juntos, então também se deve adicionar um campo resumo durante a inserção de um pessoa.
 Ex:
 
-    insere livros nome="Eu" ano="1912" editora_id="3" sinopse="Eu e outras poesias, conhecido também apenas como Eu, é o único livro de poesia de Augusto dos Anjos..."
+    insere pessoas nome="Bruna Garcia" ano="2000" casa_id="3" resumo="eu gosto de programar"
 
-
-Como não é possível acessar diretamente a tabela autores_livros, esta associação é feita ao se inserir ou alterar um autor. Ou seja, é necessário **primeiro ser inserido um livro para então se inserir seu autor**. Para isso, ao se inserir um autor, é necessário especificar seus livros, que devem ser declarados com um campo livros e passados os IDs dos livros separados por vírgula.
+Como não é possível acessar diretamente a tabela amigoes_pessoas, esta associação é feita ao se inserir ou alterar um amigo. Ou seja, é necessário **primeiro ser inserido um pessoa para então se inserir seu amigo**. 
+Para isso, ao se inserir um amigo, é necessário especificar seus pessoas, que devem ser declarados com um campo pessoas e passados os IDs dos pessoas separados por vírgula.
 Ex:
 
-    insere autores nome="Augusto dos Anjos" livros="1,10"
+    insere amigos nome="Bruno Souza" pessoas="0,3"
 
-Faz com que seja inserido o autor de nome Augusto dos Anjos e associado aos livros de IDs 1 e 10.
+Faz com que seja inserido o amigo de nome Bruno Souza e associado as pessoas de IDs 0 - 3.
 
-Então no caso de inserir uma editora, basta colocar seu nome:
+Então no caso de inserir uma casa, basta colocar seu nome:
 Ex:
 
-    insere editoras nome="Editora UFPR"
+    insere casas nome="casa do jovem"
 
 Caso seja válida a nova entrada, é retornado o seu ID de inserção. Caso contrário serão apresentados erros.
 
 ## exclui
-alias: `remove`
 
 Remove as entradas da tabela que possuam o valor dos campos passados. Caso sejam passados vários campos, são excluídas as entradas que respeitem todas as condições.
 
 Ex:
 
-    exclui livros ano="1969"
+    exclui pessoas ano="2000"
 ## altera
 alias: `atualiza`
 
@@ -131,7 +124,7 @@ Obs: é importante ressaltar que os valores dos campos de busca que precisam ser
 
 Ex:
 
-    altera livros ano="1968" para nome="Livros de 1968 alterados"
+    altera pessoas ano="1968" para nome="pessoas de 1968 alterados"
 
 
 ## limpa

@@ -8,7 +8,7 @@ class Resumo < ActiveRecord::Base
   belongs_to :pessoa
   # validações
   validates :pessoa, presence: true, uniqueness: true
-  validates :texto, presence: true, length: { minimum: 20, maximum: 2000 }
+  validates :texto, presence: true, length: { minimum: 2, maximum: 2000 }
 
   validates_associated :pessoa
 

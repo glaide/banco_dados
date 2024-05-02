@@ -20,7 +20,7 @@ class Pessoa < ActiveRecord::Base
 
   validates :casa, presence: true
   validates :nome, presence: true, length: { minimum: 2, maximum: 500 }
-  validates :ano, presence: true, numericality: { only_integer: true, less_than_or_equal_to: 2023, greater_than_or_equal_to: -1000 }
+  validates :ano, presence: true, numericality: { only_integer: true, less_than_or_equal_to: 2024, greater_than_or_equal_to: -1000 }
   validates :resumo, presence: true
 
   validates_associated :casa

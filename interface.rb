@@ -204,10 +204,11 @@ def excluiTabela(tabela, valores_chaves)
   itens = tabela.where(valores_chaves)
 
   if resultadoVazio(itens)
-    puts "Item(s) para eclusão não encontrado(s)"
+    puts "Item(s) para exclusão não encontrado(s)"
   else
     itens.each do |item|
       item.destroy
+      puts "Item(s) excluído(s)"
     end
   end
 end
