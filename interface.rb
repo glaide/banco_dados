@@ -179,14 +179,14 @@ end
 
 # Faz o mesmo de insereTabela, mas como não podemos acessar diretamente a tabela
 # de associação entre amigos e pessoas, foi feita uma função própria para tal
-def insereAutoresLivros(hash)
+def insereAmigosPessoas(hash)
   ids_amigos = hash["amigos"].split(",")
   ids_pessoas = hash["pessoas"].split(",")
 
-  ids_pessoas.each do |id_livro|
-    pessoa = Pessoa.find_by(id: id_livro.to_i)
-    ids_amigos.each do |id_autor|
-      amigo = Amigo.find_by(id: id_autor.to_i)
+  ids_pessoas.each do |id_pessoa|
+    pessoa = Pessoa.find_by(id: id_pessoa.to_i)
+    ids_amigos.each do |id_amigo|
+      amigo = Amigo.find_by(id: id_amigo.to_i)
       amigo.pessoa << pessoa if pessoa != nil and amigo != nil
     end
   end
